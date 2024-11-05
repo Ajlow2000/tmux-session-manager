@@ -4,10 +4,8 @@
 # If no argument is given, a combination of existing sessions and a zoxide query will be displayed in a FZF
 # Credit: https://github.com/27medkamal/tmux-session-wizard
 
-FZF_TMUX_OPTS=""
-
 __fzfcmd() {
-    [ -n "$TMUX_PANE" ] && { [ "${FZF_TMUX:-0}" != 0 ] || [ -n "$FZF_TMUX_OPTS" ]; } &&
+    [ -n "${TMUX_PANE:-}" ] && { [ "${FZF_TMUX:-0}" != 0 ] || [ -n "${FZF_TMUX_OPTS:-}" ]; } &&
         echo "fzf-tmux ${FZF_TMUX_OPTS:--d${FZF_TMUX_HEIGHT:-40%}} -- " || echo "fzf"
 }
 
@@ -34,7 +32,7 @@ else
 fi
 
 # Attach to session
-if [ -z "$TMUX" ]; then
+if [ -z "${TMUX:-}" ]; then
     tmux attach -t "$SESSION"
 else
     tmux switch-client -t "$SESSION"
